@@ -15,7 +15,11 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 
-export default function LoginModal() {
+type Props = {
+  onSuccess: () => void;
+};
+
+export default function LoginModal({ onSuccess }: Props) {
   const router = useRouter();
 
   const [email, setEmail] = useState("");

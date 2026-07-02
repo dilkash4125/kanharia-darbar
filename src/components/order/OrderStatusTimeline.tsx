@@ -12,7 +12,8 @@ type Status =
   | "PREPARING"
   | "OUT_FOR_DELIVERY"
   | "DELIVERY_CODE"
-  | "DELIVERED";
+  | "DELIVERED"
+  | "CANCELLED";
 
 type StatusTimes = {
   received_at?: string | null;
@@ -117,8 +118,8 @@ export default function OrderStatusTimeline({
                   isCompleted
                     ? "border-orange-500 bg-orange-500/10 text-orange-500"
                     : isActive
-                    ? "border-orange-500 text-orange-500 ring-2 ring-orange-500/30"
-                    : "border-white/20 text-gray-500"
+                      ? "border-orange-500 text-orange-500 ring-2 ring-orange-500/30"
+                      : "border-white/20 text-gray-500"
                 }`}
               >
                 <Icon className="h-4 w-4" />

@@ -22,7 +22,7 @@ type MenuRow = {
   price: number;
 };
 
-type MenuItemUI = {
+export type MenuItemUI = {
   name: string;
   category: string;
   prices: {

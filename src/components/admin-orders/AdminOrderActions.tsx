@@ -6,6 +6,7 @@ import { AdminOrderStatus } from "@/types/admin-order";
 
 type Props = {
   orderId: string;
+  currentStatus: AdminOrderStatus;
   onUpdateStatus: (id: string, status: AdminOrderStatus) => void;
 };
 

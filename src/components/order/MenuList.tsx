@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Portion, MenuItem } from "@/app/order-online/page";
+import type { Portion, MenuItemUI } from "@/app/order-online/page";
 
 type Props = {
-  menu: MenuItem[];
+  menu: MenuItemUI[];
   activeTab: "Indian" | "Chinese" | "Tandoor";
-  onAdd: (item: MenuItem, portion: Portion) => void;
+  onAdd: (item: MenuItemUI, portion: Portion) => void;
 };
 
 export default function MenuList({ menu, activeTab, onAdd }: Props) {
