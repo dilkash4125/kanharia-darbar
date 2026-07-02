@@ -11,6 +11,7 @@ type Props = {
   location: string;
   setLocation: (v: string) => void;
   onPay: () => void;
+  loading: boolean;
 };
 
 export default function UserDetailsAndPayment({
@@ -21,6 +22,7 @@ export default function UserDetailsAndPayment({
   location,
   setLocation,
   onPay,
+  loading,
 }: Props) {
   const [dateTime, setDateTime] = useState("");
 
@@ -105,9 +107,10 @@ export default function UserDetailsAndPayment({
       {/* PAYMENT */}
       <Button
         onClick={onPay}
+        disabled={loading}
         className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium tracking-wide"
       >
-        Make Payment
+        {loading ? "Processing..." : "Make Payment"}
       </Button>
     </div>
   );
