@@ -34,7 +34,9 @@ type MenuItemUI = {
 /* ================= PAGE ================= */
 
 export default function OrderOnlinePage() {
-  const [activeTab, setActiveTab] = useState("Indian");
+  const [activeTab, setActiveTab] = useState<"Indian" | "Chinese" | "Tandoor">(
+    "Indian",
+  );
   const [menu, setMenu] = useState<MenuItemUI[]>([]);
   const [cart, setCart] = useState<any[]>([]);
 
@@ -105,7 +107,7 @@ export default function OrderOnlinePage() {
 
   const totalAmount = cart.reduce(
     (sum, item) => sum + item.price * item.qty,
-    0
+    0,
   );
 
   /* ================= ORDER CREATE ================= */
