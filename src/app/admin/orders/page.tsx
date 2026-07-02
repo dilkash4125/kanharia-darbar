@@ -101,7 +101,12 @@ export default function AdminOrdersPage() {
     // ❌ Admin cannot directly mark delivered
     if (next === "DELIVERED") return;
 
-    const payload = { status: next };
+    const payload: {
+      status: AdminOrderStatus;
+      delivery_code?: string;
+    } = {
+      status: next,
+    };
 
     // 🔐 Delivery code generate only once
     if (next === "OUT_FOR_DELIVERY" && !order.deliveryCode) {
