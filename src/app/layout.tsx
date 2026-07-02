@@ -17,6 +17,9 @@ export const metadata: Metadata = {
     default: "Kanharia Darbar Cafe",
     template: "%s | Kanharia Darbar Cafe",
   },
+  verification: {
+    google: "5qSVTgaWoADy2TmAhDtWp6J4FpgrOnQSXerOI8HxdUU",
+  },
 
   description:
     "Kanharia Darbar Cafe & Family Restaurant serves delicious Indian, Chinese, Tandoor, Pizza, and Biryani. Order online and enjoy fresh food with fast service and a modern dining experience.",
