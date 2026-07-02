@@ -33,7 +33,7 @@ export default function AdminOrdersPage() {
           portion,
           price
         )
-      `
+      `,
       )
       .in("status", ["RECEIVED", "PREPARING", "OUT_FOR_DELIVERY", "CANCELLED"])
       // SORT BY OFFICIAL ORDER TIME
@@ -75,7 +75,7 @@ export default function AdminOrdersPage() {
           schema: "public",
           table: "orders",
         },
-        () => loadOrders()
+        () => loadOrders(),
       )
       .subscribe();
 
@@ -85,7 +85,7 @@ export default function AdminOrdersPage() {
   }, []);
 
   /* ================= ADMIN STATUS UPDATE ================= */
-  const updateStatus = async (id, next) => {
+  const updateStatus = async (id: string, next: AdminOrderStatus) => {
     const order = orders.find((o) => o.id === id);
     if (!order) return;
 
@@ -106,7 +106,7 @@ export default function AdminOrdersPage() {
     // 🔐 Delivery code generate only once
     if (next === "OUT_FOR_DELIVERY" && !order.deliveryCode) {
       payload.delivery_code = Math.floor(
-        1000 + Math.random() * 9000
+        1000 + Math.random() * 9000,
       ).toString();
     }
 
@@ -119,8 +119,8 @@ export default function AdminOrdersPage() {
               status: payload.status,
               deliveryCode: payload.delivery_code ?? o.deliveryCode,
             }
-          : o
-      )
+          : o,
+      ),
     );
 
     await supabase.from("orders").update(payload).eq("id", id);
