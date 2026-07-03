@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, UtensilsCrossed } from "lucide-react";
+import { Menu, X, UtensilsCrossed, Lock } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Sheet,
@@ -69,8 +69,9 @@ export default function Navbar() {
           {/* LUXURY BUTTON: Clean geometric rounded-none borders */}
           <button
             onClick={() => setLoginOpen(true)}
-            className="ml-4 rounded-sm border border-stone-800 bg-neutral-900/40 px-6 py-2.5 text-xs font-bold tracking-[0.2em] uppercase text-stone-300 hover:bg-amber-400 hover:text-black hover:border-amber-400 transition-all duration-300 backdrop-blur-sm shadow-sm"
+            className="ml-4 inline-flex items-center gap-2 rounded-sm border border-stone-800 bg-neutral-900/40 px-6 py-3 text-xs font-bold tracking-[0.2em] uppercase text-stone-300 hover:bg-amber-400 hover:text-black hover:border-amber-400 transition-all duration-300 backdrop-blur-sm shadow-sm"
           >
+            <Lock className="h-3.5 w-3.5" />
             Login
           </button>
         </nav>
@@ -137,7 +138,7 @@ export default function Navbar() {
                     setOpen(false);
                     setLoginOpen(true);
                   }}
-                  className="w-full inline-flex items-center justify-center rounded-sm border border-stone-800 bg-neutral-900/30 px-6 py-4 text-xs font-bold tracking-[0.25em] uppercase text-amber-400 hover:bg-amber-400 hover:text-black transition-all duration-300"
+                  className="w-full inline-flex items-center justify-center rounded-sm border border-stone-800 bg-neutral-900/30 px-7 py-5 text-xs font-bold tracking-[0.25em] uppercase text-amber-400 hover:bg-amber-400 hover:text-black transition-all duration-300"
                 >
                   Admin Login
                 </button>

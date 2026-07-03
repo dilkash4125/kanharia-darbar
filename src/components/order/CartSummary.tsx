@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { ShoppingBag, X } from "lucide-react";
 import { Portion } from "@/app/order-online/page";
 
 type CartItem = {
@@ -14,7 +14,6 @@ type Props = {
   onRemove: (index: number) => void;
 };
 
-/* ✅ PIECES RULE (UI ONLY) */
 const PIECES_MAP: Record<Portion, number> = {
   Half: 4,
   Full: 8,
@@ -22,54 +21,70 @@ const PIECES_MAP: Record<Portion, number> = {
 
 export default function CartSummary({ cart, total, onRemove }: Props) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/70 p-6 space-y-6">
+    <div className="border border-stone-800 bg-stone-950/80 backdrop-blur p-6 lg:p-7 space-y-6">
       {/* HEADER */}
-      <div className="space-y-1">
-        <span className="text-[11px] tracking-[0.35em] uppercase text-orange-400">
-          Summary
-        </span>
-        <h2 className="text-xl font-semibold tracking-tight text-white">
-          Your Cart
-        </h2>
+      <div className="space-y-3">
+        <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.5em] text-amber-500">
+          <span className="block h-px w-7 bg-amber-500/60" />
+          Order Summary
+        </p>
+
+        <div className="flex items-center justify-between">
+          <h2 className="font-serif text-3xl font-bold tracking-tight text-white">
+            Your Cart
+          </h2>
+
+          <div className="flex h-11 w-11 items-center justify-center border border-stone-800 bg-stone-900">
+            <ShoppingBag className="h-5 w-5 text-amber-400" />
+          </div>
+        </div>
       </div>
 
-      {/* CART ITEMS */}
-      <div className="space-y-4">
-        {cart.length === 0 && (
-          <p className="text-sm text-gray-400">No items added yet</p>
-        )}
+      {/* EMPTY */}
+      {cart.length === 0 && (
+        <div className="border border-dashed border-stone-800 bg-stone-900/40 py-10 text-center">
+          <ShoppingBag className="mx-auto mb-3 h-8 w-8 text-stone-600" />
 
+          <p className="text-sm text-stone-400">Your cart is empty</p>
+
+          <p className="mt-1 text-xs uppercase tracking-[0.25em] text-stone-600">
+            Add your favourite dishes
+          </p>
+        </div>
+      )}
+
+      {/* ITEMS */}
+      <div className="space-y-4">
         {cart.map((item, index) => (
           <div
             key={`${item.name}-${item.portion}-${index}`}
-            className="border-b border-white/10 pb-4 last:border-b-0 last:pb-0"
+            className="border border-stone-800 bg-stone-900/40 p-4 transition-all duration-300 hover:border-amber-500/40"
           >
             <div className="flex items-start justify-between gap-4">
-              {/* LEFT */}
-              <div className="space-y-0.5">
-                <p className="text-sm font-medium text-gray-200 leading-tight">
+              <div>
+                <h3 className="font-serif text-lg font-semibold text-white">
                   {item.name}
-                  <span className="ml-1 text-xs font-normal text-gray-400">
-                    ({item.portion})
-                  </span>
-                </p>
+                </h3>
 
-                <p className="text-[11px] tracking-wide text-gray-400">
-                  {PIECES_MAP[item.portion]} pieces
-                </p>
+                <div className="mt-2 flex items-center gap-3 text-xs uppercase tracking-[0.2em]">
+                  <span className="border border-stone-700 px-2 py-1 text-stone-300">
+                    {item.portion}
+                  </span>
+
+                  <span className="text-stone-500">
+                    {PIECES_MAP[item.portion]} Pieces
+                  </span>
+                </div>
               </div>
 
-              {/* RIGHT */}
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-semibold text-gray-100">
+              <div className="flex flex-col items-end gap-3">
+                <span className="text-xl font-bold text-amber-400">
                   ₹{item.price}
                 </span>
 
-                {/* REMOVE ICON */}
                 <button
                   onClick={() => onRemove(index)}
-                  className="rounded-md p-1 text-orange-500 hover:text-red-800 hover:bg-white/5 transition"
-                  aria-label="Remove item"
+                  className="border border-stone-700 p-2 text-stone-400 transition hover:border-red-500 hover:bg-red-500 hover:text-white"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -80,11 +95,18 @@ export default function CartSummary({ cart, total, onRemove }: Props) {
       </div>
 
       {/* TOTAL */}
-      <div className="border-t border-white/10 pt-4 flex justify-between items-center">
-        <span className="text-sm tracking-wide text-gray-300">
-          Total Amount
-        </span>
-        <span className="text-lg font-semibold text-orange-500">₹{total}</span>
+      <div className="border-t border-stone-800 pt-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.35em] text-stone-500">
+              Grand Total
+            </p>
+
+            <h3 className="mt-1 font-serif text-3xl font-bold text-amber-400">
+              ₹{total}
+            </h3>
+          </div>
+        </div>
       </div>
     </div>
   );

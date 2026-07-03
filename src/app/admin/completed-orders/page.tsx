@@ -34,7 +34,7 @@ export default function CompletedOrdersPage() {
           portion,
           price
         )
-      `
+      `,
       )
       .eq("status", "DELIVERED")
       // ✅ SORT BY DB ORDER TIME
@@ -80,7 +80,7 @@ export default function CompletedOrdersPage() {
         },
         () => {
           loadCompletedOrders();
-        }
+        },
       )
       .subscribe();
 
@@ -93,16 +93,20 @@ export default function CompletedOrdersPage() {
   return (
     <div className="px-3 py-4 sm:px-4 sm:py-6 lg:px-6 lg:py-6 space-y-6 text-white">
       {/* HEADER */}
-      <div className="space-y-1">
-        <span className="text-[11px] tracking-[0.35em] uppercase text-green-400">
+      <div className="space-y-8 text-center">
+        <p className="text-[11px] uppercase tracking-[0.5em] text-emerald-500">
           Orders Archive
-        </span>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Completed Orders
-        </h1>
-        <p className="text-sm text-gray-400">
-          Successfully delivered customer orders
         </p>
+
+        <div className="space-y-3">
+          <h1 className="font-serif text-4xl font-bold text-white md:text-5xl lg:text-6xl">
+            Completed Orders
+          </h1>
+
+          <p className="mx-auto max-w-2xl text-sm leading-7 text-stone-400 md:text-base">
+            Browse all completed customer orders with delivery history.
+          </p>
+        </div>
       </div>
 
       {loading && (

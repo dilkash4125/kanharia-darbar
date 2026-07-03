@@ -133,15 +133,16 @@ export default function AdminOrdersPage() {
 
   /* ================= UI ================= */
   return (
-    <div className="p-6 space-y-8 text-white">
+    <div className="w-full px-3 py-6 md:px-5 lg:px-6 space-y-8 text-white">
       <AdminOrdersHeader />
 
       {orders.length === 0 && (
-        <p className="text-sm text-gray-400">No active orders.</p>
+        <div className="border border-stone-800 bg-stone-950/60 p-10 text-center">
+          <p className="text-sm text-stone-400">No active orders available.</p>
+        </div>
       )}
 
-      {/* 🔑 ONLY FIX: items-start */}
-      <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2 xl:grid-cols-2">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 items-start">
         {orders.map((order) => (
           <AdminOrderCard
             key={order.id}

@@ -42,7 +42,7 @@ type DbOrder = {
 
 const mapAdminToUserStatus = (
   status: string,
-  deliveryCode?: string | null
+  deliveryCode?: string | null,
 ): UserStatus => {
   if (status === "RECEIVED") return "CONFIRMED";
   if (status === "PREPARING") return "PREPARING";
@@ -148,11 +148,11 @@ export default function TrackOrder() {
               ...updated,
               userStatus: mapAdminToUserStatus(
                 updated.status,
-                updated.delivery_code
+                updated.delivery_code,
               ),
             });
           }
-        }
+        },
       )
       .subscribe();
 
@@ -190,90 +190,100 @@ export default function TrackOrder() {
   /* ================= UI ================= */
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/70 p-6 md:p-8 space-y-6 text-white">
-      <header className="space-y-1">
-        <span className="text-[11px] tracking-[0.3em] uppercase text-orange-400">
+    <div className="border border-stone-800 bg-stone-950/80 backdrop-blur p-6 md:p-8 space-y-7 text-white">
+      {/* HEADER */}
+      <header className="space-y-4">
+        <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.5em] text-amber-500">
+          <span className="block h-px w-7 bg-amber-500/60" />
           Order Tracking
-        </span>
-        <h2 className="text-xl md:text-2xl font-semibold">Track Your Order</h2>
-        <p className="text-sm text-gray-400">
-          Live status updates in real time
         </p>
+
+        <div>
+          <h2 className="font-serif text-3xl md:text-4xl font-bold tracking-tight text-white">
+            Track Your Order
+          </h2>
+
+          <p className="mt-2 max-w-lg text-sm leading-7 text-stone-400">
+            Check the live preparation and delivery status of your order in real
+            time.
+          </p>
+        </div>
       </header>
 
       {/* INPUT */}
-      <div className="flex gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
-          <PackageSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <PackageSearch className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-amber-500" />
+
           <input
             value={orderCode}
             onChange={(e) => setOrderCode(e.target.value)}
-            placeholder="Enter Order Id (e.g. ORD123456)"
-            className="w-full rounded-md bg-black border border-white/20 pl-10 pr-4 py-2 text-sm outline-none focus:border-orange-500"
+            placeholder="Enter your Order ID"
+            className="h-14 w-full border border-stone-800 bg-stone-900/50 pl-11 pr-4 text-sm text-white placeholder:text-stone-600 outline-none transition focus:border-amber-500"
           />
         </div>
 
         <button
           onClick={fetchOrder}
-          className="rounded-md bg-orange-600 px-6 py-2 text-sm font-medium hover:bg-orange-700"
+          className="h-14 whitespace-nowrap bg-amber-500 px-8 text-xs font-bold uppercase tracking-[0.25em] text-black transition hover:bg-amber-400"
         >
-          Track
+          Track Order
         </button>
       </div>
 
       {/* ERROR */}
       {error && (
-        <div className="flex items-center gap-2 rounded-md border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-400">
-          <AlertCircle className="h-4 w-4" />
+        <div className="flex items-center gap-3 border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
+          <AlertCircle className="h-5 w-5 shrink-0" />
           {error}
         </div>
       )}
 
-      {/* FIRST-TIME SUCCESS */}
+      {/* SUCCESS */}
       {success && (
-        <div className="flex items-center gap-2 rounded-md border border-green-500/40 bg-green-500/10 p-3 text-green-400 text-sm">
-          <CheckCircle className="h-4 w-4" />
-          Order completed successfully. Thank you!
+        <div className="flex items-center gap-3 border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-300">
+          <CheckCircle className="h-5 w-5 shrink-0" />
+          Order completed successfully. Thank you for choosing us.
         </div>
       )}
 
-      {/* ALREADY DELIVERED */}
+      {/* DELIVERED */}
       {alreadyDelivered && (
-        <div className="flex items-center gap-2 rounded-md border border-green-500/40 bg-green-500/10 p-3 text-green-400 text-sm">
-          <CheckCircle className="h-4 w-4" />
-          Order has already been delivered.
+        <div className="flex items-center gap-3 border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-300">
+          <CheckCircle className="h-5 w-5 shrink-0" />
+          Your order has already been delivered.
         </div>
       )}
 
       {/* CANCELLED */}
       {cancelled && (
-        <div className="flex items-center gap-2 rounded-md border border-red-500/40 bg-red-500/10 p-3 text-red-400 text-sm">
-          <XCircle className="h-4 w-4" />
+        <div className="flex items-center gap-3 border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
+          <XCircle className="h-5 w-5 shrink-0" />
           Your order has been cancelled by the kitchen.
         </div>
       )}
 
       {order && !alreadyDelivered && !cancelled && (
-        <div className="space-y-6 pt-4">
+        <div className="space-y-7 border-t border-stone-800 pt-7">
           {/* CUSTOMER CARD */}
-          <div className="rounded-xl border border-white/10 bg-black/60 p-4 space-y-2 text-sm">
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-orange-500" />
+          <div className="space-y-4 border border-stone-800 bg-stone-900/50 p-5 text-sm">
+            <div className="flex items-center gap-3 text-stone-300">
+              <Clock className="h-4 w-4 text-amber-500" />
               {formatDateTime(order.order_datetime)}
             </div>
 
-            <div className="flex items-center gap-2">
-              <User className="h-4 w-4 text-orange-500" />
+            <div className="flex items-center gap-3 text-stone-300">
+              <User className="h-4 w-4 text-amber-500" />
               {order.customer_name}
             </div>
 
-            <div className="flex items-center gap-2">
-              <Phone className="h-4 w-4 text-orange-500" />
+            <div className="flex items-center gap-3 text-stone-300">
+              <Phone className="h-4 w-4 text-amber-500" />
               {order.mobile}
             </div>
 
-            <div className="flex items-start gap-2">
-              <MapPin className="h-4 w-4 text-orange-500 mt-0.5" />
+            <div className="flex items-start gap-3 text-stone-300">
+              <MapPin className="mt-0.5 h-4 w-4 text-amber-500" />
               {order.address}
             </div>
           </div>
@@ -282,20 +292,21 @@ export default function TrackOrder() {
 
           {/* DELIVERY CODE */}
           {order.userStatus === "DELIVERY_CODE" && order.delivery_code && (
-            <div className="flex items-center gap-3">
-              <div className="relative flex-1 max-w-[220px]">
-                <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <div className="relative flex-1">
+                <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-amber-500" />
+
                 <input
                   value={codeInput}
                   onChange={(e) => setCodeInput(e.target.value)}
-                  placeholder="Delivery code"
-                  className="w-full rounded-md bg-black border border-white/20 pl-9 pr-3 py-2 text-sm outline-none focus:border-green-500"
+                  placeholder="Enter delivery code"
+                  className="h-14 w-full border border-stone-800 bg-stone-900/50 pl-11 pr-4 text-sm text-white placeholder:text-stone-600 outline-none transition focus:border-emerald-500"
                 />
               </div>
 
               <button
                 onClick={verifyCode}
-                className="rounded-md bg-green-600 px-5 py-2 text-sm font-medium hover:bg-green-700"
+                className="h-14 whitespace-nowrap bg-emerald-600 px-8 text-xs font-bold uppercase tracking-[0.25em] text-white transition hover:bg-emerald-500"
               >
                 Confirm
               </button>

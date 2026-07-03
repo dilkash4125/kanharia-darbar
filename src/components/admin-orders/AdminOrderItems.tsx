@@ -1,3 +1,4 @@
+import { ShoppingBag } from "lucide-react";
 import { AdminOrderItem } from "@/types/admin-order";
 
 export default function AdminOrderItems({
@@ -6,31 +7,41 @@ export default function AdminOrderItems({
   items: AdminOrderItem[];
 }) {
   return (
-    <div className="mt-2 divide-y divide-white/10">
-      {items.map((item, idx) => (
-        <div key={idx} className="flex items-center justify-between py-3">
-          {/* LEFT SIDE */}
-          <div className="flex flex-col gap-0.5">
-            {/* Item name */}
-            <span className="text-sm font-medium text-gray-100 leading-snug">
-              {item.name}
-            </span>
+    <div>
+      {/* HEADER */}
+      <div className="mb-5 flex items-center gap-3">
+        <ShoppingBag className="h-5 w-5 text-amber-400" />
 
-            {/* Meta info */}
-            <span className="text-[11px] tracking-wide text-gray-400">
-              Qty {item.qty}
-              {item.portion && (
-                <span className="ml-1 uppercase">• {item.portion}</span>
-              )}
-            </span>
-          </div>
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-amber-500">
+            Order Items
+          </p>
 
-          {/* RIGHT SIDE */}
-          <span className="text-sm font-semibold text-gray-300 tabular-nums">
-            ₹{item.price}
-          </span>
+          <p className="text-xs text-stone-500">
+            {items.length} Item{items.length > 1 ? "s" : ""}
+          </p>
         </div>
-      ))}
+      </div>
+
+      {/* ITEMS */}
+      <div className="divide-y divide-stone-800">
+        {items.map((item, idx) => (
+          <div key={idx} className="flex items-center justify-between py-4">
+            {/* LEFT */}
+            <div>
+              <p className="text-sm font-medium text-white">{item.name}</p>
+
+              <p className="mt-1 text-xs uppercase tracking-wide text-stone-500">
+                Qty {item.qty}
+                {item.portion && <span className="ml-2">• {item.portion}</span>}
+              </p>
+            </div>
+
+            {/* RIGHT */}
+            <p className="text-lg font-bold text-amber-400">₹{item.price}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

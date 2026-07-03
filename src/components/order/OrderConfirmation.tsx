@@ -1,16 +1,16 @@
 "use client";
 
-import { Clock } from "lucide-react";
+import { BadgeCheck, Clock, ReceiptText } from "lucide-react";
 
 type Props = {
   customerName: string;
   orderId: string;
-  orderDateTime: string; // ✅ DB datetime (ISO)
+  orderDateTime: string;
 };
 
-/* ================= SAFE FORMATTER ================= */
 const formatDateTime = (value: string) => {
   const d = new Date(value);
+
   if (isNaN(d.getTime())) return "";
 
   return d.toLocaleString("en-IN", {
@@ -29,41 +29,71 @@ export default function OrderConfirmation({
   orderDateTime,
 }: Props) {
   return (
-    <div className="mx-auto max-w-md rounded-2xl border border-white/10 bg-black/70 p-8 text-center space-y-6">
-      {/* ================= SUCCESS TITLE ================= */}
-      <div className="space-y-1">
-        <span className="text-[11px] tracking-[0.3em] uppercase text-green-400">
-          Success
-        </span>
-        <h2 className="text-2xl font-semibold tracking-tight text-green-400">
-          Order Confirmed
-        </h2>
+    <div className="mx-auto max-w-lg border border-stone-800 bg-stone-950/90 backdrop-blur p-8 md:p-10 text-center space-y-8">
+      {/* Header */}
+      <div className="space-y-5">
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-emerald-500/30 bg-emerald-500/10">
+          <BadgeCheck className="h-10 w-10 text-emerald-400" />
+        </div>
+
+        <div>
+          <p className="flex items-center justify-center gap-3 text-[10px] font-semibold uppercase tracking-[0.5em] text-amber-500">
+            <span className="block h-px w-7 bg-amber-500/60" />
+            Order Successful
+            <span className="block h-px w-7 bg-amber-500/60" />
+          </p>
+
+          <h2 className="mt-4 font-serif text-4xl font-bold tracking-tight text-white">
+            Order Confirmed
+          </h2>
+
+          <p className="mt-4 text-sm leading-7 text-stone-400">
+            Thank you{" "}
+            <span className="font-semibold text-white">{customerName}</span>.
+            Your order has been received successfully and our kitchen has
+            started preparing it.
+          </p>
+        </div>
       </div>
 
-      {/* ================= MESSAGE ================= */}
-      <p className="text-sm text-gray-300 leading-relaxed">
-        Thank you <span className="text-white font-medium">{customerName}</span>
-        , your order has been successfully placed.
-      </p>
+      {/* Order Details */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between border border-stone-800 bg-stone-900/50 px-5 py-4">
+          <div className="flex items-center gap-3">
+            <Clock className="h-5 w-5 text-amber-500" />
+            <span className="text-sm uppercase tracking-[0.2em] text-stone-400">
+              Order Time
+            </span>
+          </div>
 
-      {/* ================= ORDER DATE & TIME ================= */}
-      <div className="flex items-center justify-center gap-2 text-sm text-gray-300">
-        <Clock className="h-4 w-4 text-gray-400" />
-        <span>{formatDateTime(orderDateTime)}</span>
+          <span className="text-sm font-medium text-white">
+            {formatDateTime(orderDateTime)}
+          </span>
+        </div>
+
+        <div className="border border-amber-500/30 bg-amber-500/5 p-6">
+          <div className="flex items-center justify-center gap-2">
+            <ReceiptText className="h-5 w-5 text-amber-500" />
+
+            <span className="text-[10px] uppercase tracking-[0.35em] text-stone-400">
+              Order ID
+            </span>
+          </div>
+
+          <p className="mt-3 break-all font-mono text-2xl font-bold tracking-widest text-amber-400">
+            {orderId}
+          </p>
+        </div>
       </div>
 
-      {/* ================= ORDER CODE BOX ================= */}
-      <div className="rounded-md border border-white/10 py-4 space-y-1">
-        <p className="text-xs tracking-widest uppercase text-gray-400">
-          Order Id
+      {/* Footer */}
+      <div className="border-t border-stone-800 pt-6">
+        <p className="text-sm leading-6 text-stone-400">
+          Please save your{" "}
+          <span className="font-semibold text-amber-400">Order ID</span> for
+          future order tracking and support.
         </p>
-        <p className="text-lg font-semibold text-orange-500">{orderId}</p>
       </div>
-
-      {/* ================= HELP TEXT ================= */}
-      <p className="text-xs text-gray-400">
-        Take screenshot your Order Id to track your order status.
-      </p>
     </div>
   );
 }

@@ -168,16 +168,21 @@ export default function OrderOnlinePage() {
   /* ================= UI ================= */
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 py-14">
-      <div className="mx-auto max-w-6xl space-y-16">
+    <div className="min-h-screen bg-black px-4 py-14 text-white">
+      <div className="mx-auto max-w-7xl space-y-16">
+        {/* HEADER */}
         <OrderHeader />
+
+        {/* MENU TABS */}
         <MenuTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
         {!paid ? (
-          <div className="grid md:grid-cols-2 gap-10">
+          <>
+            {/* MENU LIST */}
             <MenuList menu={menu} activeTab={activeTab} onAdd={addToCart} />
 
-            <div className="space-y-5">
+            {/* CART + CUSTOMER */}
+            <div className="grid gap-8 lg:grid-cols-2">
               <CartSummary
                 cart={cart}
                 total={totalAmount}
@@ -195,7 +200,7 @@ export default function OrderOnlinePage() {
                 loading={loading}
               />
             </div>
-          </div>
+          </>
         ) : (
           <OrderConfirmation
             customerName={customerName}
@@ -204,7 +209,8 @@ export default function OrderOnlinePage() {
           />
         )}
 
-        <div className="pt-10 border-t border-white/10">
+        {/* TRACK ORDER */}
+        <div className="border-t border-stone-800 pt-12">
           <TrackOrder />
         </div>
       </div>

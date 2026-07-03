@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { CalendarDays, MapPin, Phone, User } from "lucide-react";
 
 type Props = {
   customerName: string;
@@ -26,91 +27,111 @@ export default function UserDetailsAndPayment({
 }: Props) {
   const [dateTime, setDateTime] = useState("");
 
-  // realtime date & time (16 Dec 2025, 02:45 PM)
   useEffect(() => {
     const updateTime = () => {
-      const now = new Date();
-
-      const formatted = now.toLocaleString("en-IN", {
-        day: "2-digit",
-        month: "short", // Dec
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      });
-
-      setDateTime(formatted);
+      setDateTime(
+        new Date().toLocaleString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }),
+      );
     };
 
     updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
+    const id = setInterval(updateTime, 1000);
+
+    return () => clearInterval(id);
   }, []);
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/70 p-6 space-y-5">
-      {/* HEADER */}
-      <div className="space-y-1">
-        <span className="text-[11px] tracking-[0.3em] uppercase text-orange-400">
+    <div className="border border-stone-800 bg-stone-950/80 backdrop-blur p-6 lg:p-7 space-y-6">
+      {/* Header */}
+      <div className="space-y-3">
+        <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.5em] text-amber-500">
+          <span className="block h-px w-7 bg-amber-500/60" />
           Customer Details
-        </span>
-        <h2 className="text-xl font-semibold tracking-tight">
+        </p>
+
+        <h2 className="font-serif text-3xl font-bold text-white">
           Delivery Information
         </h2>
+
+        <p className="text-sm leading-relaxed text-stone-400">
+          Please provide your delivery details to complete your order.
+        </p>
       </div>
 
-      {/* DATE & TIME */}
-      <div className="space-y-1">
-        <label className="text-sm text-gray-400">Date & Time</label>
+      {/* Date */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-stone-400">
+          <CalendarDays className="h-4 w-4 text-amber-500" />
+          Date & Time
+        </label>
+
         <input
-          value={dateTime}
           readOnly
-          className="w-full rounded-md bg-black/60 border border-white/20 px-4 py-2 text-sm text-gray-300 cursor-not-allowed"
+          value={dateTime}
+          className="h-12 w-full border border-stone-800 bg-stone-900/50 px-4 text-sm text-stone-300 outline-none"
         />
       </div>
 
-      {/* NAME */}
-      <div className="space-y-1">
-        <label className="text-sm text-gray-400">Full Name</label>
+      {/* Name */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-stone-400">
+          <User className="h-4 w-4 text-amber-500" />
+          Full Name
+        </label>
+
         <input
           value={customerName}
           onChange={(e) => setCustomerName(e.target.value)}
-          placeholder="Enter your name"
-          className="w-full rounded-md bg-black border border-white/20 px-4 py-2 text-sm outline-none focus:border-orange-500"
+          placeholder="Enter your full name"
+          className="h-12 w-full border border-stone-800 bg-stone-900/50 px-4 text-sm text-white placeholder:text-stone-600 outline-none transition focus:border-amber-500"
         />
       </div>
 
-      {/* MOBILE */}
-      <div className="space-y-1">
-        <label className="text-sm text-gray-400">Mobile Number</label>
+      {/* Mobile */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-stone-400">
+          <Phone className="h-4 w-4 text-amber-500" />
+          Mobile Number
+        </label>
+
         <input
           value={mobile}
           onChange={(e) => setMobile(e.target.value)}
           placeholder="10 digit mobile number"
-          className="w-full rounded-md bg-black border border-white/20 px-4 py-2 text-sm outline-none focus:border-orange-500"
+          className="h-12 w-full border border-stone-800 bg-stone-900/50 px-4 text-sm text-white placeholder:text-stone-600 outline-none transition focus:border-amber-500"
         />
       </div>
 
-      {/* ADDRESS */}
-      <div className="space-y-1">
-        <label className="text-sm text-gray-400">Delivery Address</label>
+      {/* Address */}
+      <div className="space-y-2">
+        <label className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-stone-400">
+          <MapPin className="h-4 w-4 text-amber-500" />
+          Delivery Address
+        </label>
+
         <textarea
+          rows={4}
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          placeholder="Enter complete delivery address"
-          rows={3}
-          className="w-full resize-none rounded-md bg-black border border-white/20 px-4 py-2 text-sm outline-none focus:border-orange-500"
+          placeholder="Enter complete delivery address..."
+          className="w-full resize-none border border-stone-800 bg-stone-900/50 p-4 text-sm text-white placeholder:text-stone-600 outline-none transition focus:border-amber-500"
         />
       </div>
 
-      {/* PAYMENT */}
+      {/* Button */}
       <Button
         onClick={onPay}
         disabled={loading}
-        className="w-full bg-orange-600 hover:bg-orange-700 text-white font-medium tracking-wide"
+        className="h-14 w-full rounded-none bg-amber-500 text-xs font-bold uppercase tracking-[0.25em] text-black transition hover:bg-amber-400"
       >
-        {loading ? "Processing..." : "Make Payment"}
+        {loading ? "Processing Payment..." : "Proceed to Payment"}
       </Button>
     </div>
   );
