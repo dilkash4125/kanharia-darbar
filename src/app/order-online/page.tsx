@@ -20,6 +20,7 @@ type MenuRow = {
   category: string;
   portion: Portion;
   price: number;
+  image_url: string | null;
 };
 
 export type MenuItemUI = {
@@ -29,8 +30,8 @@ export type MenuItemUI = {
     Half?: number;
     Full?: number;
   };
+  image_url: string;
 };
-
 /* ================= PAGE ================= */
 
 export default function OrderOnlinePage() {
@@ -58,7 +59,7 @@ export default function OrderOnlinePage() {
   const fetchMenu = async () => {
     const { data, error } = await supabase
       .from("menu_items")
-      .select("name, category, portion, price");
+      .select("name, category, portion, price, image_url");
 
     if (error || !data) {
       console.error("Menu fetch failed", error);
@@ -73,6 +74,7 @@ export default function OrderOnlinePage() {
         grouped[row.name] = {
           name: row.name,
           category: row.category,
+          image_url: row.image_url ?? "",
           prices: {},
         };
       }
