@@ -53,85 +53,101 @@ export default function LoginModal({ onSuccess }: Props) {
   };
 
   return (
-    <DialogContent className="sm:max-w-md bg-black text-white border border-white/10 rounded-xl p-0 overflow-hidden">
-      <div className="px-6 pt-6 pb-7">
-        <DialogHeader>
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-500/10 border border-orange-500/30">
-              <ShieldCheck className="h-5 w-5 text-orange-500" />
-            </div>
-            <div>
-              <DialogTitle className="text-xl font-semibold leading-none">
-                Admin Login
-              </DialogTitle>
-              <p className="mt-1.5 text-sm text-gray-400">
-                Secure access to manage orders
-              </p>
-            </div>
-          </div>
-        </DialogHeader>
-
-        <div className="mt-7 space-y-4">
-          {/* EMAIL */}
-          <div className="space-y-1.5">
-            <Label htmlFor="email" className="text-sm text-gray-300">
-              Email Address
-            </Label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@email.com"
-                className="pl-10 h-11 bg-white/[0.03] border-white/10 focus-visible:ring-1 focus-visible:ring-orange-500 focus-visible:border-orange-500 transition-colors"
-              />
-            </div>
+    <DialogContent className="overflow-hidden border border-stone-800 bg-gradient-to-b from-black via-stone-950 to-black p-0 text-white shadow-2xl sm:max-w-md">
+      {/* HEADER */}
+      <div className="border-b border-stone-800 px-8 py-8">
+        <div className="flex items-center gap-4">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-amber-500/30 bg-amber-500/10">
+            <ShieldCheck className="h-7 w-7 text-amber-400" />
           </div>
 
-          {/* PASSWORD */}
-          <div className="space-y-1.5">
-            <Label htmlFor="password" className="text-sm text-gray-300">
-              Password
-            </Label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-              <Input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="pl-10 pr-10 h-11 bg-white/[0.03] border-white/10 focus-visible:ring-1 focus-visible:ring-orange-500 focus-visible:border-orange-500 transition-colors"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-orange-500 transition-colors"
-                tabIndex={-1}
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-          </div>
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.45em] text-amber-500">
+              Secure Access
+            </p>
 
-          {/* LOGIN BUTTON */}
-          <DialogClose asChild>
-            <Button
-              disabled={loading}
-              onClick={handleLogin}
-              className="w-full inline-flex items-center justify-center gap-2.5 rounded-none bg-amber-500 px-12 py-4 h-auto mt-1 text-sm font-semibold tracking-widest uppercase text-black hover:bg-amber-400 transition-all duration-300 shadow-xl disabled:opacity-60"
-            >
-              <LogIn className="h-4 w-4 stroke-[2.5]" />
-              {loading ? "Logging in..." : "Login"}
-            </Button>
-          </DialogClose>
+            <DialogTitle className="mt-2 font-serif text-3xl font-bold text-white">
+              Admin Login
+            </DialogTitle>
+
+            <p className="mt-2 text-sm text-stone-400">
+              Sign in to manage restaurant operations.
+            </p>
+          </div>
         </div>
+      </div>
+
+      {/* BODY */}
+      <div className="space-y-6 px-8 py-8">
+        {/* EMAIL */}
+        <div className="space-y-2">
+          <Label
+            htmlFor="email"
+            className="text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-400"
+          >
+            Email Address
+          </Label>
+
+          <div className="relative">
+            <Mail className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-500" />
+
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="admin@email.com"
+              className="h-12 rounded-xl border-stone-800 bg-stone-950 pl-11 text-white placeholder:text-stone-600 focus-visible:border-amber-500 focus-visible:ring-amber-500"
+            />
+          </div>
+        </div>
+
+        {/* PASSWORD */}
+        <div className="space-y-2">
+          <Label
+            htmlFor="password"
+            className="text-[11px] font-semibold uppercase tracking-[0.25em] text-stone-400"
+          >
+            Password
+          </Label>
+
+          <div className="relative">
+            <Lock className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-500" />
+
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className="h-12 rounded-xl border-stone-800 bg-stone-950 pl-11 pr-12 text-white placeholder:text-stone-600 focus-visible:border-amber-500 focus-visible:ring-amber-500"
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-500 transition hover:text-amber-400"
+            >
+              {showPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* LOGIN BUTTON */}
+        <DialogClose asChild>
+          <Button
+            disabled={loading}
+            onClick={handleLogin}
+            className="mt-2 h-12 w-full rounded-xl bg-amber-500 text-sm font-bold uppercase tracking-[0.3em] text-black transition-all duration-300 hover:bg-amber-400 hover:shadow-xl hover:shadow-amber-500/30"
+          >
+            <LogIn className="mr-2 h-4 w-4" />
+            {loading ? "Logging In..." : "Admin Login"}
+          </Button>
+        </DialogClose>
       </div>
     </DialogContent>
   );

@@ -16,17 +16,44 @@ import LoginModal from "@/components/auth/LoginModal";
 export default function Navbar() {
   const pathname = usePathname();
 
-  // mobile menu
+  // Mobile drawer
   const [open, setOpen] = useState(false);
 
-  // login modal (desktop + mobile)
+  // Login modal
   const [loginOpen, setLoginOpen] = useState(false);
 
-  // SSR hydration fix for Radix components
+  // SSR hydration
   const [mounted, setMounted] = useState(false);
+
+  // Active mobile menu
+  const [activeMenu, setActiveMenu] = useState<"Home" | "About" | "Contact">(
+    "Home",
+  );
 
   useEffect(() => {
     setMounted(true);
+
+    const updateActiveMenu = () => {
+      if (typeof window === "undefined") return;
+
+      const hash = window.location.hash;
+
+      if (hash === "#about") {
+        setActiveMenu("About");
+      } else if (hash === "#contact") {
+        setActiveMenu("Contact");
+      } else {
+        setActiveMenu("Home");
+      }
+    };
+
+    updateActiveMenu();
+
+    window.addEventListener("hashchange", updateActiveMenu);
+
+    return () => {
+      window.removeEventListener("hashchange", updateActiveMenu);
+    };
   }, []);
 
   const navClass = (href: string) =>
@@ -69,7 +96,7 @@ export default function Navbar() {
           {/* LUXURY BUTTON: Clean geometric rounded-none borders */}
           <button
             onClick={() => setLoginOpen(true)}
-            className="ml-4 inline-flex items-center gap-2 rounded-sm border border-stone-800 bg-neutral-900/40 px-6 py-3 text-xs font-bold tracking-[0.2em] uppercase text-stone-300 hover:bg-amber-400 hover:text-black hover:border-amber-400 transition-all duration-300 backdrop-blur-sm shadow-sm"
+            className="ml-4 inline-flex items-center gap-2 border border-amber-500 bg-amber-500 px-6 py-3 text-xs font-bold uppercase tracking-[0.25em] text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-400 hover:shadow-lg hover:shadow-amber-500/30 active:translate-y-0"
           >
             <Lock className="h-3.5 w-3.5" />
             Login
@@ -88,60 +115,90 @@ export default function Navbar() {
 
             <SheetContent
               side="right"
-              className="bg-neutral-950 text-stone-200 border-l border-stone-900/60 [&>button]:hidden flex flex-col justify-between"
+              className="w-[320px] border-l border-stone-800 bg-gradient-to-b from-black via-stone-950 to-black p-0 text-white [&>button]:hidden"
             >
-              <div>
-                {/* MOBILE HEADER */}
-                <div className="flex items-center justify-between mb-12 mt-4">
-                  <SheetTitle className="text-xs font-semibold tracking-[0.3em] uppercase text-stone-500">
-                    Menu
-                  </SheetTitle>
+              <div className="flex h-full flex-col">
+                {/* HEADER */}
+                <div className="relative border-b border-stone-800 px-6 py-8">
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.45em] text-amber-500">
+                      Menu
+                    </p>
 
+                    {/* FIX: h2 ko SheetTitle bana diya (Radix accessibility requirement, crash fix) */}
+                    <SheetTitle className="mt-2 font-serif text-2xl font-bold text-white">
+                      Kanharia Darbaar
+                    </SheetTitle>
+
+                    <p className="mt-1 text-xs tracking-[0.25em] uppercase text-stone-500">
+                      Cafe & Family Restaurant
+                    </p>
+                  </div>
+
+                  {/* CLOSE ICON: top-8 right-6 kiya taaki container ke px-6 py-8 padding ke saath perfectly align ho, symmetric aur balanced lage */}
                   <button
                     onClick={() => setOpen(false)}
-                    className="rounded-full p-2 border border-stone-900 text-stone-400 hover:bg-stone-900 hover:text-white transition-all duration-300"
+                    className="absolute right-4 top-8 rounded-full border border-stone-800 p-2 text-stone-400 transition hover:border-amber-500 hover:text-amber-400"
                   >
-                    <X className="h-4 w-4" />
+                    <X className="h-5 w-5" />
                   </button>
                 </div>
 
-                {/* MOBILE LINKS: Uniform linear vertical spacing */}
-                <div className="flex flex-col gap-8">
-                  <Link
-                    onClick={() => setOpen(false)}
-                    href="/"
-                    className={navClass("/")}
-                  >
-                    Home
-                  </Link>
-                  <Link
-                    onClick={() => setOpen(false)}
-                    href="/#about"
-                    className={navClass("/#about")}
-                  >
-                    About
-                  </Link>
-                  <Link
-                    onClick={() => setOpen(false)}
-                    href="/#contact"
-                    className={navClass("/#contact")}
-                  >
-                    Contact
-                  </Link>
-                </div>
-              </div>
+                {/* MENU */}
+                <div className="flex-1 px-6 py-8">
+                  <nav className="space-y-2">
+                    {[
+                      { href: "/", label: "Home" as const },
+                      { href: "/#about", label: "About" as const },
+                      { href: "/#contact", label: "Contact" as const },
+                    ].map((item) => {
+                      const active = activeMenu === item.label;
 
-              {/* ADMIN LOGIN BUTTON (MOBILE): Fixed padding and solid layout */}
-              <div className="mb-6">
-                <button
-                  onClick={() => {
-                    setOpen(false);
-                    setLoginOpen(true);
-                  }}
-                  className="w-full inline-flex items-center justify-center rounded-sm border border-stone-800 bg-neutral-900/30 px-7 py-5 text-xs font-bold tracking-[0.25em] uppercase text-amber-400 hover:bg-amber-400 hover:text-black transition-all duration-300"
-                >
-                  Admin Login
-                </button>
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => {
+                            setActiveMenu(item.label);
+                            setOpen(false);
+                          }}
+                          className={`flex items-center justify-between border-b border-stone-900 py-5 transition-all duration-300 ${
+                            active
+                              ? "text-amber-400"
+                              : "text-stone-300 hover:text-white"
+                          }`}
+                        >
+                          <span className="text-lg font-medium tracking-wide">
+                            {item.label}
+                          </span>
+
+                          {active && (
+                            <span className="h-2 w-2 rounded-full bg-amber-400" />
+                          )}
+                        </Link>
+                      );
+                    })}
+                  </nav>
+                </div>
+
+                {/* FOOTER */}
+                <div className="border-t border-stone-800 p-6 space-y-5">
+                  <button
+                    onClick={() => {
+                      setOpen(false);
+                      setLoginOpen(true);
+                    }}
+                    className="w-full border border-amber-500 bg-amber-500 py-3 text-xs font-bold uppercase tracking-[0.3em] text-black transition hover:bg-amber-400"
+                  >
+                    Admin Login
+                  </button>
+
+                  <div className="text-center">
+                    <p className="text-[10px] uppercase tracking-[0.35em] text-stone-600">
+                      Premium Dining Experience
+                    </p>
+                  </div>
+                </div>
               </div>
             </SheetContent>
           </Sheet>

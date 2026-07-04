@@ -44,7 +44,7 @@ export default function Hero() {
               Kanharia
               {/* MAP BUTTON: Locked to the top-right of "Kanharia" */}
               <a
-                href="https://goo.gl"
+                href="https://maps.app.goo.gl/Y4rbhdgeGCrHciuCA"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="View on Map"
